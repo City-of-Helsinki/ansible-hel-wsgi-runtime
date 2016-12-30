@@ -1,5 +1,12 @@
 # {{ansible_managed}}
 uwsgi:
+  # Take heed! Plugins must be near top. Uwsgi will automagically
+  # attempt to find a plugin providing unknown configuration options
+  # If the parser encounters 'callable'-option it will load the first
+  # Python module providing that. Whether it is 'python' or 'python3'
+  # Then you application will be run using that python and you will
+  # be quite confused.
+  plugins: python3
   chdir: /home/{{pycont_user}}/{{pycont_name}}
 {% if pycont_url_prefix | default(False) %}
   mount: "/{{pycont_url_prefix}}={{pycont_app_name}}/wsgi.py"
@@ -23,7 +30,7 @@ uwsgi:
   threads: {{ pycont_uwsgi_threads|default(1)}}
   master: true
   uid: {{pycont_user}}
-  plugins: python
+
   # Based on AKX
   master: true
   reload-on-rss: 300
