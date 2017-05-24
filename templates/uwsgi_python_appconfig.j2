@@ -40,3 +40,5 @@ uwsgi:
   touch-reload: /home/{{pycont_user}}/service_state/touch_to_reload
   # Allow large image uploads
   chunked-input-limit: 10485760
+  # Prevent simple OOM-situations
+  limit-as: 1024
