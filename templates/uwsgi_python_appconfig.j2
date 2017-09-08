@@ -33,6 +33,7 @@ uwsgi:
   threads: {{ pycont_uwsgi_threads|default(1)}}
   master: true
   uid: {{pycont_user}}
+  umask: 022
 {% for process in pycont_aux_processes|default([]) %}
   smart-attach-daemon: {{ process.pidfile }} {{ process.command }}
 {% endfor %}
