@@ -19,9 +19,9 @@
   tags: uwsgi
 
 - name: Enable uWSGI application configuration
-  file: force=yes 
+  file: force=yes
         state=link
-        path=/etc/uwsgi/apps-enabled/{{pycont_name}}.yml 
+        path=/etc/uwsgi/apps-enabled/{{pycont_name}}.yml
         src=/etc/uwsgi/apps-available/{{pycont_name}}.yml
 
 # Container is the shell towards OS, thus it creates the user
