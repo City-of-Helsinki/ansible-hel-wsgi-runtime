@@ -7,11 +7,27 @@
   # Mostly used for Ansible, but also generally useful
   - acl
   tags: apt
+  when: not pycont_use_pypi|default(False)
+
+- name: Install pypis for uwsgi
+  pip:
+    name: uwsgi
+    state: latest
+  when: pycont_use_pypi|default(false)
 
 - name: Install system packagedependencies for aux processes
   apt: pkg={{item}} state=present update-cache=yes cache_valid_time=120
   with_items: "{{ pycont_aux_dependencies|default([]) }}"
   tags: apt
+
+- name: Ensure debian style uwsgi directories exist
+  file:
+    path: "{{item}}"
+    state: directory
+    mode: 0755
+  with_items:
+    - /etc/uwsgi/apps-available
+    - /etc/uwsgi/apps-enabled
 
 - name: Copy in uWSGI Python application configuration
   template: src=uwsgi_python_appconfig.j2
@@ -50,3 +66,4 @@
 # not be looking at the reload flag yet
 - name: Restart uWSGI
   service: name=uwsgi state=restarted
+  when: pycont_start_service|default(true)
