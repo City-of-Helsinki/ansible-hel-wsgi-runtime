@@ -9,6 +9,7 @@
   tags: apt
   when: not pycont_use_pypi|default(False)
 
+# PyPI install is nice for Docker
 - name: Install pypis for uwsgi
   pip:
     name: uwsgi
