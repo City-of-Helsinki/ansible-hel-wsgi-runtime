@@ -35,6 +35,10 @@
             dest=/etc/uwsgi/apps-available/{{pycont_name}}.yml
   tags: uwsgi
 
+- name: Template in environment definition for admining
+  template: src=config.j2
+            dest=/home/{{pycont_user}}/service_state/config.sh
+
 - name: Enable uWSGI application configuration
   file: force=yes
         state=link

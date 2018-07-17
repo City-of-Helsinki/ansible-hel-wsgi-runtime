@@ -1,0 +1,4 @@
+# {{ansible_managed}}
+{% for envvar in pycont_runtime_envs %}
+export {{ envvar }}={{ pycont_runtime_envs[envvar] }}
+{% endfor %}
