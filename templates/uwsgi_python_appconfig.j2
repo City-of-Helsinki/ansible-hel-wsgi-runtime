@@ -23,6 +23,9 @@ uwsgi:
 {% if pycont_path is defined %}
   env: PATH={{pycont_path ~ ":"}}$(PATH)
 {% endif %}
+{% if node_path is defined %}
+  env: PATH={{node_path.stdout ~ ":"}}$(PATH)
+{% endif %}
   env: DJANGO_SETTINGS_MODULE={{pycont_app_name}}.settings
   env: LANG=en_US.UTF-8
 {% for envvar in pycont_runtime_envs %}

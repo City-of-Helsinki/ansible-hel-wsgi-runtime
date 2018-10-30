@@ -30,6 +30,16 @@
     - /etc/uwsgi/apps-available
     - /etc/uwsgi/apps-enabled
 
+- name: Check if NVM based Node installation exists
+  stat:
+    path: /home/{{django_user}}/nvm/path_to_current
+  register: node_path_exists
+
+- name: Read in Node path if available
+  command: cat /home/{{django_user}}/nvm/path_to_current
+  register: node_path
+  when: node_path_exists.stat.exists == True
+
 - name: Copy in uWSGI Python application configuration
   template: src=uwsgi_python_appconfig.j2
             dest=/etc/uwsgi/apps-available/{{pycont_name}}.yml
