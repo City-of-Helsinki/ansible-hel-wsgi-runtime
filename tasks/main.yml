@@ -45,6 +45,12 @@
             dest=/etc/uwsgi/apps-available/{{pycont_name}}.yml
   tags: uwsgi
 
+- name: Ensure service_state directory exists in home directory
+  file:
+    path: /home/{{ pycont_user }}/service_state
+    state: directory
+    owner: "{{ pycont_user }}"
+
 - name: Template in environment definition for admining
   template: src=config.j2
             dest=/home/{{pycont_user}}/service_state/config.sh

@@ -49,6 +49,12 @@ uwsgi:
   master: true
   uid: {{pycont_user}}
   umask: 022
+{% if pycont_disable_write_exception %}
+  # Normally uWSGI raises an exception when the client has severed
+  # connection, and the application is still writing the answer.
+  # This disables that, as there is not much to be done about it.
+  disable-write-exception: true
+{% endif %}
 {% for process in pycont_aux_processes|default([]) %}
   smart-attach-daemon: {{ process.pidfile }} {{ process.command }}
 {% endfor %}
