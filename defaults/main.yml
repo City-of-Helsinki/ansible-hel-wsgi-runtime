@@ -2,3 +2,6 @@
 # defaults file for ansible-hel-wsgi-runtime
 pycont_runtime_envs: []
 pycont_disable_write_exception: false
+
+# Limit address space to 1024MB by default
+pycont_as_limit: 1024

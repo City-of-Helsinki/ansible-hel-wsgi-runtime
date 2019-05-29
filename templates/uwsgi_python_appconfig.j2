@@ -69,4 +69,4 @@ uwsgi:
   chunked-input-limit: 10485760
   buffer-size: 32768
   # Prevent simple OOM-situations
-  limit-as: 1024
+  limit-as: {{ pycont_as_limit }}
