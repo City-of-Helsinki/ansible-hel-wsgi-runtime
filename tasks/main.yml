@@ -51,6 +51,17 @@
     state: directory
     owner: "{{ pycont_user }}"
 
+- name: Ensure service_tasks directory exists in home directory
+  file:
+    path: /home/{{ pycont_user }}/service_tasks
+    state: directory
+    owner: "{{ pycont_user }}"
+
+- name: Copy in wrapper script for running tasks
+  copy:
+    src: files/with_django_env.sh
+    dest: /home/{{ pycont_user }}/service_tasks
+
 - name: Template in environment definition for admining
   template: src=config.j2
             dest=/home/{{pycont_user}}/service_state/config.sh
