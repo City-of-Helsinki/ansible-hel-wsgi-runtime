@@ -1,11 +1,12 @@
 - name: Install packages for uwsgi
-  apt: pkg={{item}} state=present update-cache=yes cache_valid_time=120
-  with_items:
-  - uwsgi
-  - uwsgi-plugin-python
-  - uwsgi-plugin-python3
-  # Mostly used for Ansible, but also generally useful
-  - acl
+  apt: pkg={{packages}} state=present update-cache=yes cache_valid_time=120
+  vars:
+    packages:
+      - uwsgi
+      - uwsgi-plugin-python
+      - uwsgi-plugin-python3
+      # Mostly used for Ansible, but also generally useful
+      - acl
   tags: apt
   when: not pycont_use_pypi|default(False)
 
@@ -17,8 +18,9 @@
   when: pycont_use_pypi|default(false)
 
 - name: Install system packagedependencies for aux processes
-  apt: pkg={{item}} state=present update-cache=yes cache_valid_time=120
-  with_items: "{{ pycont_aux_dependencies|default([]) }}"
+  apt: pkg={{packages}} state=present update-cache=yes cache_valid_time=120
+  vars:
+    packages: "{{ pycont_aux_dependencies|default([]) }}"
   tags: apt
 
 - name: Ensure debian style uwsgi directories exist
@@ -61,6 +63,7 @@
   copy:
     src: files/with_django_env.sh
     dest: /home/{{ pycont_user }}/service_tasks
+    mode: 0555
 
 - name: Template in environment definition for admining
   template: src=config.j2
